@@ -2,6 +2,7 @@ import React from 'react';
 
 import AppHeader from './components/AppHeader'
 import Login from './components/Login'
+import Signup from './components/Signup'
 import Eventlite from './components/Eventlite'
 
 const currentUser = function() {
@@ -13,7 +14,11 @@ function App() {
   return (
     <div className="App">
       <AppHeader />
-      {currentUser() ? <Eventlite /> : <Login />}
+      {currentUser() ? <Eventlite /> : 
+        <React.Fragment>
+          <Login /> <Signup />
+        </React.Fragment>
+      }
     </div>
   );
 }
