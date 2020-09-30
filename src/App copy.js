@@ -16,8 +16,7 @@ function App() {
       <AppHeader />
       {currentUser() ? <Eventlite /> : 
         <React.Fragment>
-          <Login />
-          <Signup />
+          <Login /> <Signup />
         </React.Fragment>
       }
     </div>
