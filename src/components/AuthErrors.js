@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SignupErrors = (props) => (
+const AuthErrors = (props) => (
   <div>
     {Object.keys(props.errorMessages).map(index => {
       return (
@@ -10,4 +10,4 @@ const SignupErrors = (props) => (
   </div>
 )
 
-export default SignupErrors
+export default AuthErrors

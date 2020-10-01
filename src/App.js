@@ -1,8 +1,7 @@
 import React from 'react';
 
 import AppHeader from './components/AppHeader'
-import Login from './components/Login'
-import Signup from './components/Signup'
+import Auth from './components/Auth'
 import Eventlite from './components/Eventlite'
 
 const currentUser = function() {
@@ -16,8 +15,8 @@ function App() {
       <AppHeader />
       {currentUser() ? <Eventlite /> : 
         <React.Fragment>
-          <Login />
-          <Signup />
+          <Auth loginMode={true} />
+          <Auth loginMode={false} />
         </React.Fragment>
       }
     </div>

@@ -1,21 +1,29 @@
 import React from 'react'
 import axios from 'axios'
 
-import SignupErrors from './SignupErrors'
+import AuthErrors from './AuthErrors'
 
-class Signup extends React.Component {
+class Auth extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      // loginMode: true,
       errorMessages: {}
+    }
+    if (this.props.loginMode) {
+      this.url = "http://localhost:3001/auth/sign_in"
+      this.header = "Sign in"
+    } else {
+      this.url = "http://localhost:3001/auth"
+      this.header = "Sign up"
     }
   }
 
-  handleSignup = (e) => {
+  handleSubmit = (e) => {
     e.preventDefault()
     axios({
       method: 'POST',
-      url: 'http://localhost:3001/auth',
+      url: this.url,
       data: {
         email: this.email.value,
         password: this.password.value
@@ -32,7 +40,11 @@ class Signup extends React.Component {
     })
     .catch(error => {
       console.log("error.response.data:   ",error.response.data)
-      this.setState({errorMessages: error.response.data.errors.full_messages})
+      if (this.props.loginMode) {
+        this.setState({errorMessages: error.response.data.errors})
+      } else {
+        this.setState({errorMessages: error.response.data.errors.full_messages})
+      }
       console.log(typeof this.state.errorMessages)
       console.log("console.table: ")
       console.table(this.state.errorMessages)
@@ -43,12 +55,12 @@ class Signup extends React.Component {
     })
   }
 
-  render () {
+  render() { 
     return (
       <div>
-        <SignupErrors errorMessages = {this.state.errorMessages} />
-        <h2>Sign up</h2>
-        <form onSubmit={this.handleSignup} >
+        <AuthErrors errorMessages = {this.state.errorMessages} />
+        <h2>{this.header}</h2>
+        <form onSubmit={this.handleSubmit} >
           <input name="email" ref={(input) => this.email = input } />
           <input name="password" type="password" ref={(input) => this.password = input } />
           <input type="submit"/>
@@ -58,4 +70,4 @@ class Signup extends React.Component {
   }
 }
 
-export default Signup
+export default Auth
