@@ -6,6 +6,7 @@ import Login from './components/Login'
 import Signup from './components/Signup'
 import Eventlite from './components/Eventlite'
 import Event from './components/Event'
+import EventForm from './components/EventForm'
 
 function App() {
   const currentUser = localStorage.getItem('user')
@@ -26,6 +27,9 @@ function App() {
       </Route>
       <Route exact path="/events/:id" render={routeProps => (
         <Event {...routeProps} />
+      )} />
+      <Route exact path="/events/:id/edit" render={routeProps => (
+        <EventForm {...routeProps} />
       )} />
       
     </Router>
