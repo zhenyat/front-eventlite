@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom"
 
 import AppHeader from './components/AppHeader'
 import Login from './components/Login'
@@ -12,14 +13,20 @@ const currentUser = function() {
 
 function App() {
   return (
-    <div className="App">
-      <AppHeader />
-      {currentUser() ? <Eventlite /> : 
-        <React.Fragment>
-          <Login /> <Signup />
-        </React.Fragment>
-      }
-    </div>
+    <Router>
+      <Route path="/">
+        <AppHeader />
+      </Route>
+      <Route exact path="/">
+        <Eventlite />
+      </Route>
+      <Route exact path="/login">
+        <Login />
+      </Route>
+      <Route exact path="/signup">
+        <Signup />
+      </Route>
+    </Router>
   );
 }
 
