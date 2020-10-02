@@ -5,6 +5,7 @@ import AppHeader from './components/AppHeader'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import Eventlite from './components/Eventlite'
+import Event from './components/Event'
 
 function App() {
   const currentUser = localStorage.getItem('user')
@@ -23,6 +24,10 @@ function App() {
       <Route exact path="/signup">
         {currentUser ? <Redirect to="/" /> : <Signup />}
       </Route>
+      <Route exact path="/events/:id" render={routeProps => (
+        <Event {...routeProps} />
+      )} />
+      
     </Router>
   );
 }
