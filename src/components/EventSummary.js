@@ -1,27 +1,59 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import Col from 'react-bootstrap/Col'
-import Card from 'react-bootstrap/Card'
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import moment from 'moment'
 
-const EventSummary = props => (
-  <Col md={4}>
-    <Link to={`/events/${props.event.id}`} className="event-card-link">
-      <Card className="mb-4 event-card">
-        <Card.Img variant="top" src={props.event.image_url} />
-        <Card.Body>
-          <Card.Text className="event-card-datetime">
-            {moment(props.event.start_datetime).format('ddd, MMM DD, YYYY hh:mm A z')}
-          </Card.Text>
-          <Card.Title>
-            {props.event.title}
-          </Card.Title>
-        </Card.Body>
+const formatDate = datetime =>
+  new Date(datetime).toDateString()
+
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 140,
+  },
+});
+
+
+function EventSummary(props){
+  const classes = useStyles()
+
+  return (
+    <Link to={`/events/${props.event.id}`} style={{textDecoration: 'none'}} >
+      <Card className={classes.root}>
+        <CardActionArea>
+          <CardMedia
+            className={classes.media}
+            image={props.event.image_url}
+            title={props.event.title}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {props.event.title}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {moment(props.event.start_datetime).format('ddd, MMM DD, YYYY hh:mm A z')}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Button href={`/events/${props.event.id}`} size="small" color="primary">
+            View Event Details
+          </Button>
+        </CardActions>
       </Card>
     </Link>
-  </Col>
-)
+  )
+}
 
 Event.propTypes = {
   event: PropTypes.shape({
