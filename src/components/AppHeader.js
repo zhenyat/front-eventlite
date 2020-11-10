@@ -1,41 +1,41 @@
 import React from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
+
+const handleSignOut = function(e) {
+  e.preventDefault();
+  axios({
+    method: 'DELETE',
+    url: 'http://localhost:3001/auth/sign_out',
+    data: JSON.parse(localStorage.user)
+  })
+  .then(() => {
+    localStorage.removeItem('user')
+    window.location = '/'
+  })
+}
 
 function AppHeader() {
   const currentUser = localStorage.getItem('user')
-
-  const handleSignOut = function(e) {
-    e.preventDefault();
-    axios({
-      method: 'DELETE',
-      url: 'http://localhost:3001/auth/sign_out',
-      data: JSON.parse(localStorage.user)
-    })
-    .then(() => {
-      localStorage.removeItem('user')
-      window.location = '/'
-    })
-  }
-
+  
   return (
-    <div>
-      <div style={{float: "right"}}>
-        {currentUser ?
-          <>
-            {JSON.parse(currentUser).uid}
-            <a href="#" onClick={handleSignOut} >Sign out</a>
-          </> :
-          <>
-            <Link to="/signup">Signup</Link>
-            <Link to="/login" style={{padding: '10px'}}>Login</Link>
-          </>
-        }
-      </div>
-      <Link to="/" style={{textDecoration: 'none', color: 'black'}}>
-        <h1 className="logo">Eventlite</h1>
-      </Link>
-    </div>
+    <Navbar fixed="top" bg="white">
+      <Navbar.Brand href="/">eventlite</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+      {currentUser ?
+        <Nav>
+          <Nav.Item><Navbar.Text>{JSON.parse(currentUser).uid}</Navbar.Text></Nav.Item>
+          <Nav.Item><Nav.Link href="#" onClick={handleSignOut} >Sign out</Nav.Link></Nav.Item>
+         </Nav> :
+        <Nav>
+          <Nav.Item><Nav.Link href="/signup">Signup</Nav.Link></Nav.Item>
+          <Nav.Item><Nav.Link href="/login">Login</Nav.Link></Nav.Item>
+        </Nav>
+      }
+      </Navbar.Collapse>
+    </Navbar>
   )
 }
 export default AppHeader
